@@ -83,7 +83,10 @@ def generate_matrix(out_filename):
     cur = db.execute(('SELECT COUNT(*) + 1 FROM words'))
     num_words = cur.fetchone()[0]
     
-    mat = numpy.zeros(shape=(num_words + 1, num_words + 1))
+    mat = numpy.memmap(out_filename, 
+                       dtype=numpy.int32, 
+                       mode='w+',
+                       shape=(num_words + 1, num_words + 1))
     
     cur = db.execute(('SELECT (SELECT sentences2.word_id + 1 '
                       '        FROM sentences AS sentences2 '
@@ -98,7 +101,7 @@ def generate_matrix(out_filename):
             prev_word_id = 0
         mat[prev_word_id, word_id] += 1
     
-    numpy.savetxt(out_filename, mat, fmt="%d")
+    del mat
     
 def main(do_what):
     if do_what == "LOAD":

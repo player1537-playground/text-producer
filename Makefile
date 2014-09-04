@@ -2,7 +2,7 @@ WORDS_DATABASE = words.db
 SCHEMA = schema.sql
 PRODUCE_PY = produce.py
 SENTENCES_DATA = raw_data.txt
-MATRIX_FILE = counts.mat
+MATRIX_FILE = counts.npy
 
 all: | create-db load-data
 
